@@ -3,18 +3,8 @@ import { Card } from "./card";
 
 type Identifier = 'player' | 'dealer';
 
-export interface Participant {
-  identifier: Identifier;
-  totalCount: [number, number]
-  cards: Card[]
-
-  addCard(card: Card): void
-  incrementTotalCount(score: [number, number]): void;
-
-}
-
 export class Participant implements Participant{
-  identifier: Identifier
+  readonly identifier: Identifier
   totalCount: [number, number];
   cards: Card[] = [];
 
@@ -26,7 +16,5 @@ export class Participant implements Participant{
   addCard(card: Card): void {
     this.cards.push(card)
   }
-
-
 
 }

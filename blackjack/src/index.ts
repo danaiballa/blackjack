@@ -2,21 +2,7 @@ const p = require('prompt-sync')()
 import { BlackJackGame } from "./blackJackGame";
 import { Participant } from "./participant";
 import { Deck } from "./deck";
-
-function formatScore(participant: Participant): string{
-  const [count1, count2] = participant.totalCount;
-  let formattedCount = []
-  if (count1 == count2 && count1 < 21) {
-    formattedCount.push(count1)
-  } else if (count1 > 21 || count2 > 21){
-    formattedCount.push(Math.min(count1, count2))
-  } else {
-    formattedCount.push(participant.totalCount)
-  }
-
-  return(`${participant.identifier}: ${JSON.stringify(participant.cards)}, count = ${formattedCount} \n`)
-
-}
+import { formatData } from "./display";
 
 function main(){
   // TODO: make functions that make a move
@@ -31,11 +17,11 @@ function main(){
   game.giveCard(deck, player);
   
   game.giveCard(deck, dealer);
-  console.log(formatScore(player))
+  console.log(formatData(player))
 
   // give again a card to player and dealer, but do not show dealer's card
   game.giveCard(deck, player);
-  console.log(formatScore(player))
+  console.log(formatData(player))
 
   game.giveCard(deck, dealer);
 
@@ -52,7 +38,7 @@ function main(){
 
     // give a card to the player
     game.giveCard(deck, player);
-    console.log(formatScore(player))
+    console.log(formatData(player))
     if (game.hasLost(player)) {
       console.log('Sorry, you lose...')
       break
@@ -65,12 +51,16 @@ function main(){
   // if player has not lost, start with dealer
   if (!game.hasLost(player)){
     // reveal dealer's cards
-    console.log(formatScore(dealer))
-    let [dealerScore1, dealerScore2] = dealer.totalCount;
-    // TODO: add this to the game rules & implement it correctly...
-    while (dealerScore1 < 17 && dealerScore2 < 17) {
+    console.log(formatData(dealer))
+    console.log(dealer.totalCount)
+    // TODO: implement it correctly...
+    while (!game.shouldStop(dealer)) {
+//       dealer: [{"suit":"diamond","rank":"2"},{"suit":"heart","rank":"3"},{"suit":"heart","rank":"6"},{"suit":"club","rank":"1"},{"suit":"spade","rank":"8"}], count = 20 
+
+// dealer: [{"suit":"diamond","rank":"2"},{"suit":"heart","rank":"3"},{"suit":"heart","rank":"6"},{"suit":"club","rank":"1"},{"suit":"spade","rank":"8"},{"suit":"diamond","rank":"6"}], count = 26 
       game.giveCard(deck, dealer)
-      console.log(formatScore(dealer))
+      console.log(formatData(dealer))
+      console.log(dealer.totalCount)
       // if dealer has lost, player wins
       if (game.hasLost(dealer)) {
         console.log(`Player wins!`);

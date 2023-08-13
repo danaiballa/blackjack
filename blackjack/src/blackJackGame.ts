@@ -42,11 +42,23 @@ export class BlackJackGame{
   }
 
   shouldStop(participant: Participant): boolean {
+    // this is wrong too... 
+    // dealer: [{"suit":"heart","rank":"4"},{"suit":"heart","rank":"7"}], count = 11 
+
+    // [ 11, 11 ]
+    // dealer: [{"suit":"heart","rank":"4"},{"suit":"heart","rank":"7"},{"suit":"heart","rank":"A"}], count = 12 
+
+    // [ 12, 22 ]
+    // Winner is player!
     let [score1, score2] = participant.totalCount;
-    if (score1 == 21 || score2 == 21) {
-      return true
+    if (participant.identifier == 'player') {
+      if (score1 == 21 || score2 == 21) {
+        return true
+      }
+      return false
+    } else {
+      return !(score1 < 17 && score2 < 17)
     }
-    return false
   }
 
   /** Give a card and add the rank of the card to player's data. */
