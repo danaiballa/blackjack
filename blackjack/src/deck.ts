@@ -20,7 +20,7 @@ export class Deck {
     "K",
     "A",
   ];
-  cards: Card[];
+  readonly cards: Card[];
 
   constructor() {
     this.cards = [];

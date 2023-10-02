@@ -9,6 +9,7 @@ import {
   newMoveMessage,
   newTurnMessage,
   playerLostMessage,
+  resultsMessage,
   winMessage,
 } from "./display";
 import { Card } from "./types";
@@ -63,7 +64,7 @@ async function main() {
   console.log(newTurnMessage(player));
   while (true) {
     let choise = rl.question(
-      newMoveMessage(rules.moveOptions[0], rules.moveOptions[1])
+      newMoveMessage(rules.moveOptions[0], rules.moveOptions[1], player)
     );
     if (choise == "1") {
       drawAndAdd(player, rules, deck);
@@ -83,14 +84,14 @@ async function main() {
   }
 
   console.log(newTurnMessage(dealer));
+  // print dealer hand and score to show the hidden card
+  console.log(formatHand(dealer));
+  console.log(formatScore(dealer));
   // dealer draws cards until has to stop or is over 21
-  while (true) {
+  while (!(rules.shouldStop(dealer) || rules.hasLost(dealer))) {
     drawAndAdd(dealer, rules, deck);
     console.log(formatHand(dealer));
     console.log(formatScore(dealer));
-    if (rules.shouldStop(dealer) || rules.hasLost(dealer)) {
-      break;
-    }
   }
 
   let winner: Participant;
@@ -99,7 +100,9 @@ async function main() {
   } else {
     winner = rules.determineWinner(player, dealer);
   }
-
+  console.log(resultsMessage)
+  console.log(formatScore(dealer));
+  console.log(formatScore(player));
   console.log(winMessage(winner));
   console.log(endMessage);
 }

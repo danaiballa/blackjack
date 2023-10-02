@@ -16,9 +16,9 @@ export abstract class Participant {
 }
 
 export class Player extends Participant {
-  // TODO: doesn't make sense to set 'player' twice...
   // TODO: set the name
-  readonly identifier: "player";
+  // TODO: does the identifier field make sense? how should we set it?
+  readonly identifier: "player" | "dealer";
   constructor() {
     super();
     this.identifier = "player";
@@ -26,7 +26,7 @@ export class Player extends Participant {
 }
 
 export class Dealer extends Participant {
-  readonly identifier: "dealer";
+  readonly identifier: "dealer" | "dealer";
   constructor() {
     super();
     this.identifier = "dealer";
