@@ -1,4 +1,3 @@
-// const p = require("prompt-sync")();
 import { Rules } from "./rules";
 import { Player, Dealer, Participant } from "./participant";
 import { Deck } from "./deck";
@@ -28,7 +27,7 @@ function drawAndAdd(
   return card;
 }
 
-async function main() {
+function main() {
   // TODO: make functions that make a move
   let rules = new Rules();
   let deck = new Deck();
